@@ -22,7 +22,3 @@ def weather_by_city(city, period):
             except(IndexError, TypeError):
                 return False
     return False
-
-
-if __name__ == '__main__':
-    print(weather_by_city('Moscow', 3))
