@@ -12,13 +12,15 @@ def weather_by_city(city, period):
         'num_of_days': period,
         'lang': 'ru'
     }
-
-    response = requests.get(weather_url, params=payload)
-    result = response.json()
-    if 'data' in result:
-        if 'current_condition' in result['data']:
-            try:
-                return result['data']['current_condition'][0]
-            except(IndexError, TypeError):
-                return False
-    return False
+    try:
+        response = requests.get(weather_url, params=payload)
+        response.raise_for_status()
+        result = response.json()
+        if 'data' in result:
+            if 'current_condition' in result['data']:
+                try:
+                    return result['data']['current_condition'][0]
+                except(IndexError, TypeError):
+                    return False
+    except (requests.RequestException, ValueError) as error:
+        print(f"Error has accured: {error}")
